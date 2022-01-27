@@ -1,5 +1,5 @@
 dist
 node_modules
-dist
+.mf
 /.idea/
 wrangler.toml
