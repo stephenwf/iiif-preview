@@ -27,6 +27,15 @@ export async function handler(request: Request): Promise<Response> {
       },
     });
   }
+  
+  if (request.method === 'OPTIONS') {
+    return new Response(null, {
+      status: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
+    });
+  }
 
   if (url.pathname === '/store' && request.method === 'POST') {
     const body: any = await request.json();
