@@ -33,6 +33,8 @@ export async function handler(request: Request): Promise<Response> {
       status: 200,
       headers: {
         'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Accept, Content-Type',
+        'Content-Type': 'application/json',
       },
     });
   }
