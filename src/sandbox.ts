@@ -16,24 +16,26 @@ export async function handler(request: Request): Promise<Response> {
   base.pathname = '';
   const baseUrl = base.toString();
 
+  const corsHeaders: HeadersInit = {
+    'Access-Control-Allow-Origin': request.headers.get('Origin') || '*',
+    'Access-Control-Allow-Methods': 'GET,HEAD,POST,OPTIONS',
+    'Access-Control-Allow-Headers': request.headers.get('Access-Control-Request-Headers') || 'Content-Type,Accept',
+  };
+
   if (url.pathname === '/') {
     return new Response('IIIF Preview', { status: 200 });
   }
 
   if (request.method === 'HEAD') {
     return new Response(null, {
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-      },
+      headers: corsHeaders,
     });
   }
-  
+
   if (request.method === 'OPTIONS') {
     return new Response(null, {
       status: 200,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-      },
+      headers: corsHeaders,
     });
   }
 
@@ -83,7 +85,7 @@ export async function handler(request: Request): Promise<Response> {
       {
         status: 201,
         headers: {
-          'Access-Control-Allow-Origin': '*',
+          ...corsHeaders,
           'Content-Type': 'application/json',
         },
       }
@@ -101,6 +103,7 @@ export async function handler(request: Request): Promise<Response> {
     if (!key1 || !key2) {
       return new Response('Invalid identifier', {
         status: 401,
+        headers: corsHeaders,
       });
     }
 
@@ -117,7 +120,7 @@ export async function handler(request: Request): Promise<Response> {
     return new Response(encryptedEnabled ? manifest : JSON.stringify(manifest), {
       status: 200,
       headers: {
-        'Access-Control-Allow-Origin': '*',
+        ...corsHeaders,
         'Content-Type': 'application/json',
         'X-Sandbox-Expires-In': `${Math.floor(((resp.metadata?.ttl || 0) - Date.now()) / 1000)}`,
       },
@@ -159,9 +162,7 @@ export async function handler(request: Request): Promise<Response> {
 
       return new Response('Deleted', {
         status: 200,
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-        },
+        headers: corsHeaders,
       });
     }
 
@@ -200,7 +201,7 @@ export async function handler(request: Request): Promise<Response> {
         {
           status: 200,
           headers: {
-            'Access-Control-Allow-Origin': '*',
+            ...corsHeaders,
             'Content-Type': 'application/json',
           },
         }
@@ -208,5 +209,5 @@ export async function handler(request: Request): Promise<Response> {
     }
   }
 
-  return new Response('Not found', { status: 404 });
+  return new Response('Not found', { status: 404, headers: corsHeaders });
 }
