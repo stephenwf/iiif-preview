@@ -195,7 +195,7 @@ export async function handler(request: Request): Promise<Response> {
       return new Response(
         JSON.stringify({
           location: `${baseUrl}p3/${key1}${key2}`,
-          updateLocation: `${baseUrl}update/${key1}${key2}/${key3}`,
+          updateLocation: `${baseUrl}update/${key1}${key2}/${newKey3}`,
           expirationTtl,
         }),
         {
