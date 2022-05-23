@@ -18,7 +18,7 @@ export async function handler(request: Request): Promise<Response> {
 
   const corsHeaders: HeadersInit = {
     'Access-Control-Allow-Origin': request.headers.get('Origin') || '*',
-    'Access-Control-Allow-Methods': 'GET,HEAD,POST,OPTIONS',
+    'Access-Control-Allow-Methods': 'GET,HEAD,POST,PUT,OPTIONS',
     'Access-Control-Allow-Headers': request.headers.get('Access-Control-Request-Headers') || 'Content-Type,Accept',
   };
 
